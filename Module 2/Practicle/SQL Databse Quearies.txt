@@ -1,0 +1,121 @@
+create database Assignment;
+use Assignment;
+create table login(userid varchar(255) primary Key, password varchar(255));
+select * from login;
+insert into login values("miku@123", "MMIIKKUU@@112233");
+select * from employees;
+select * from students;
+select * from student;
+
+/*Create Data*/
+CREATE TABLE employee (
+    id INT AUTO_INCREMENT,
+    name VARCHAR(255),
+    salary DECIMAL(10, 2),
+    PRIMARY KEY (id)
+);
+
+/* Insert Data*/
+INSERT INTO employee (name, salary) VALUES ('Miku Kumar', 50000.00);
+INSERT INTO employee (name, salary) VALUES ('Utsav Bhagat', 60000.00);
+INSERT INTO employee (name, salary) VALUES ('Himanshu Rajpurohit', 70000.00);
+
+/*Create a stored procedure:*/
+
+DELIMITER $$
+
+CREATE PROCEDURE GetEmployeeDetails()
+BEGIN
+    SELECT * FROM employee;
+END$$
+
+DELIMITER ;
+
+/*Call the stored procedure:*/
+CALL GetEmployeeDetails();
+
+
+/*Q). Demonstrate how to pass IN parameters and retrieve*/
+
+/*Create Table*/
+CREATE TABLE emp (
+    id INT AUTO_INCREMENT,
+    name VARCHAR(255),
+    department VARCHAR(255),
+    salary DECIMAL(10, 2),
+    PRIMARY KEY (id)
+);
+
+/*Insert Data*/
+INSERT INTO emp (name, department, salary) VALUES ('Saloni Yadav', 'Java Developer', 50000.00);
+INSERT INTO emp (name, department, salary) VALUES ('Shreya Soni', 'Backend Developer', 60000.00);
+INSERT INTO emp (name, department, salary) VALUES ('Bhumika', 'Java Backend Developer', 70000.00);
+
+/*Create a stored procedure with IN parameters:*/
+
+DELIMITER $$
+
+CREATE PROCEDURE GetEmployeeDetailsByDepartment(IN departmentName VARCHAR(255))
+BEGIN
+    SELECT * FROM emp WHERE department = departmentName;
+END$$
+
+DELIMITER ;
+
+/*Call the stored procedure with IN parameters:*/
+
+CALL GetEmployeeDetailsByDepartment('java developer');
+
+
+/*Q). Use a SELECT query to display this metadata*/
+
+SELECT 
+    COLUMN_NAME, 
+    DATA_TYPE, 
+    CHARACTER_MAXIMUM_LENGTH, 
+    NUMERIC_PRECISION, 
+    NUMERIC_SCALE
+FROM 
+    INFORMATION_SCHEMA.COLUMNS
+WHERE 
+    TABLE_NAME = 'employee' AND TABLE_SCHEMA = 'Assignment';
+    
+    
+/*Q). Create a stored procedure in MySQL with IN and OUT parameters (e.g., a procedure
+that takes an employes ID as input and returns the employes full name as output).*/
+
+/*Create Table*/
+CREATE TABLE employes (
+    id INT AUTO_INCREMENT,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    PRIMARY KEY (id)
+);
+
+/*Insert Data*/
+
+INSERT INTO employes (first_name, last_name) VALUES ('Miku', 'Kumar');
+INSERT INTO employes (first_name, last_name) VALUES ('Utsav', 'Bhagat');
+INSERT INTO employes (first_name, last_name) VALUES ('Himanshu', 'Rajpurohit');
+INSERT INTO employes (first_name, last_name) VALUES ('Shreya', 'Soni');
+
+/*Create Procedure*/
+
+DELIMITER $$
+
+CREATE PROCEDURE GetEmployeeFullName(
+    IN empId INT,
+    OUT fullName VARCHAR(255)
+)
+BEGIN
+    SELECT CONCAT(first_name, ' ', last_name) INTO fullName
+    FROM employes
+    WHERE id = empId;
+END$$
+
+DELIMITER 
+
+/*Calling the procedure*/
+
+CALL GetEmployeeFullName(1, @fullName);
+SELECT @fullName;

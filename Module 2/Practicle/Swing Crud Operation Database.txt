@@ -1,0 +1,9 @@
+create database CRUD;
+
+use CRUD;
+
+create table student(id int(11) primary key auto_increment, first_name varchar(50), last_name varchar(50), email varchar(50), mobile_no bigint(11));
+
+select * from student;
+
+
